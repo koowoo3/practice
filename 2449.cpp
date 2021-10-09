@@ -20,25 +20,7 @@ int main()
     s.push(v[0]);
     arr[v[0]]++;
     while(index<n && s.size()!=0){
-        if(index==n){ index--; check=1;}
-        if(!check){
-            if(s.top()==v[index]){  //동일 값이 들어온다. 
-                index++;
-                continue;
-            }
-            if(arr[v[index]]){ //이전에 들어온 값인데 또 들어왔다.
-                arr[v[index]]--;
-                s.pop();
-                cnt++;
-                continue;
-            }
-            s.push(v[index]); // 그 이외라면 값을 넣어준다. 
-            arr[v[index]]++;
-            index++; 
-        }
-        else{
         
-        }
     } 
     cout<<cnt;
 }
