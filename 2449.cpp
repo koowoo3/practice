@@ -11,16 +11,19 @@ vector<int> shrink(int bn){
     int index=1;
     s.push(v[0]);
     arr[v[0]]++;
-    while(index<bn && s.size()!=0){
-        if(s.top()==v[index]){  //동일 값이 들어온다. 
-            index++;
-            continue;
-        }
-        if(arr[v[index]]){ //이전에 들어온 값인데 또 들어왔다.
-            arr[v[index]]--;
-            s.pop();
-            cnt++;
-            continue;
+    while(index<bn){
+        if(!s.empty()){
+            if(s.top()==v[index]){  //동일 값이 들어온다. s가 비어버리는 오류가 생긴다. 
+                index++;
+                continue;
+            }
+            if(arr[v[index]]){ //이전에 들어온 값인데 또 들어왔다.
+                arr[v[index]]--;
+                arr[s.top()]--;
+                s.pop();
+                cnt++;
+                continue;
+            }
         }
         s.push(v[index]); // 그 이외라면 값을 넣어준다. 
         arr[v[index]]++;
@@ -42,12 +45,14 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0); cout.tie(0);
-    cin>>n>>k; 
+    cin>>n>>k;
+    
     for(int i=0;i<n;i++){
         int a;
         cin>>a;
         v.push_back(a);
     }
+    if(n==1) {cout<<1; return 0;} 
     while(v.size()>1){  // stack의 사이즈가 1이될때까지 반복해준다.  
         int bn=v.size();
         memset(arr, 0, sizeof(arr));
