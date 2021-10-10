@@ -1,0 +1,96 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int n, k, arr[200], cache[200][200];
+
+int func(int l, int r) {
+	if (l >= r)return 0;
+	int& ret = cache[l][r];
+	if (ret)return ret;
+
+	ret = 1e9;
+	for (int i = l; i < r; i++) {
+		int p = arr[l] == arr[i+1] ? 0 : 1;
+		ret = min(ret, func(l, i) + func(i + 1, r) + p);
+	}
+	return ret;
+}
+
+int main() {
+	ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+
+	cin >> n >> k;
+	for (int i = 0; i < n; i++)cin >> arr[i];
+	cout << func(0, n - 1);
+}
+
+
+/*
+#include<bits/stdc++.h>
+using namespace std;
+
+int n,k,cnt=0;
+vector<int> v;
+int arr[21];
+
+vector<int> shrink(int bn){
+
+    stack<int> s;
+    int index=1;
+    s.push(v[0]);
+    arr[v[0]]++;
+    while(index<bn){
+        if(!s.empty()){
+            if(s.top()==v[index]){  //동일 값이 들어온다. s가 비어버리는 오류가 생긴다. 
+                index++;
+                continue;
+            }
+            if(arr[v[index]]){ //이전에 들어온 값인데 또 들어왔다.
+                //arr[v[index]]--;
+                arr[s.top()]--;
+                s.pop();
+                cnt++;
+                continue;
+            }
+        }
+        s.push(v[index]); // 그 이외라면 값을 넣어준다. 
+        arr[v[index]]++;
+        index++; 
+    }
+    int temp[201];
+    int num=s.size();
+    for(int i=0;i<num;i++){
+        temp[i]=s.top();
+        s.pop();
+    } 
+    vector<int> vv;
+    for(int i=num-1;i>=0;i--)
+        vv.push_back(temp[i]);
+    return vv;
+        
+}
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    cin>>n>>k;
+    
+    for(int i=0;i<n;i++){
+        int a;
+        cin>>a;
+        v.push_back(a);
+    }
+    while(v.size()>1){  // stack의 사이즈가 1이될때까지 반복해준다.  
+        int bn=v.size();
+        memset(arr, 0, sizeof(arr));
+        v=shrink(bn);
+        if(v.size()==bn){
+            cnt++;
+            v.pop_back();
+        }
+    } 
+    cout<<cnt;
+}*/
+
+// 2번째 코드는 그리디처럼 풀었지만 dp로 풀어야 최소 횟수를 구할수 있는듯함.
